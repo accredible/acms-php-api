@@ -1,15 +1,16 @@
-# Simple composer package boilerplate (Just a few default files i use when creating a blank composer package)
-TODO:
-- Create class with wrappers for group and credential endpoints
-- Add tests
+# Accredible API PHP SDK for easy creation of digital certificates and open badges in your project.
+
+## Overview
+The Accredible platform enables organizations to create, manage and distribute digital credentials as digital certificates or open badges.
+
+An example digital certificate and badge can be viewed here: https://www.credential.net/10000005
+
+This gem wraps the Accredible API in Ruby for easy integration into projects. Full API documentation can be found here: http://docs.accrediblecredentialapi.apiary.io/
 
 # Demo
 
 TODO: travis-ci, scrutinizer, packaist images...
 
-## About
-
-TODO: Why would you use this package?
 
 ## Install
 ```bash
@@ -18,11 +19,8 @@ TODO: composer require stilliard/DEMO dev-master
 
 ## Usage
 
-TODO: How to use it?
-
 Add `use ACMS\Api;` to the class you'd like to use the API in.
 
 ### License
 
 This project is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
-
