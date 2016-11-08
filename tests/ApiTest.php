@@ -9,7 +9,7 @@ use ACMS\Api;
 class ApiTest extends \PHPUnit_Framework_TestCase {
 
 	protected function setUp(){
-        $this->api = new Api("accredible_secret123", true);
+        $this->api = new Api("APIKey", true);
     }
 
     protected function tearDown(){
@@ -18,7 +18,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
 
     public function testSetAPIKey(){
         // Check the API key is set
-        $this->assertEquals("accredible_secret123", $this->api->getAPIKey());
+        $this->assertEquals("APIKey", $this->api->getAPIKey());
     }
 
     public function testGetCredential(){

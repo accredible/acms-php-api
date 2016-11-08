@@ -13,7 +13,7 @@ class Api {
 
 	private $api_key;
 
-	private $api_endpoint = "https://staging.accredible.com/v1/";
+	private $api_endpoint = "https://api.accredible.com/v1/";
 
 	public function setAPIKey($key) { 
         $this->api_key = $key; 
@@ -61,7 +61,7 @@ class Api {
 	public function get_credentials($group_id = null, $email = null, $page_size = null, $page = 1){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->get($this->api_endpoint. 'credentials?group_id=' . $group_id . '&email=' . rawurlencode($email) . '&page_size' . $page_size . '&page' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->get($this->api_endpoint. 'credentials?group_id=' . $group_id . '&email=' . rawurlencode($email) . '&page_size=' . $page_size . '&page=' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
 		
 		$result = json_decode($response->getBody());
 		return $result;

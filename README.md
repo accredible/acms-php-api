@@ -1,4 +1,4 @@
-# Accredible API PHP SDK for easy creation of digital certificates and open badges in your project.
+# Accredible API PHP SDK
 
 ## Overview
 The Accredible platform enables organizations to create, manage and distribute digital credentials as digital certificates or open badges.
