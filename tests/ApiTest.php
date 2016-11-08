@@ -79,6 +79,19 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
 		$response = $this->api->delete_group($requested_group->group->id);
     }
 
+    public function testGetGroups(){
+    	$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");
+
+    	// Can we get a group?
+		$groups = $this->api->get_groups(1);
+		$example_group = array_values($groups->groups)[0];
+
+		$this->assertEquals("PHPTest", $example_group->group->name);
+
+		//cleanup
+		$response = $this->api->delete_group($example_group->group->id);
+    }
+
     public function testCreateGroup(){
     	// Can we create a Group
 		$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");

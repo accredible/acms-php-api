@@ -2,8 +2,8 @@
 
 namespace ACMS;
 
-// For composer dependencies
-require 'vendor/autoload.php';
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
 
 /**
  * API Wrappers
@@ -173,6 +173,18 @@ class Api {
 		$client = new \GuzzleHttp\Client();
 		
 		$response = $client->get($this->api_endpoint.'issuer/groups/' . $id, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		
+		$result = json_decode($response->getBody());
+		return $result;
+	}
+
+	/*
+	 * Get all Groups
+	 */
+	public function get_groups($page_size = nil, $page = 1){
+		$client = new \GuzzleHttp\Client();
+		
+		$response = $client->get($this->api_endpoint.'issuer/all_groups?page_size=' . $page_size . '&page=' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
 		
 		$result = json_decode($response->getBody());
 		return $result;
