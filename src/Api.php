@@ -41,7 +41,7 @@ class Api {
         $this->setAPIKey($api_key);
 
         if (null !== $test) {
-    	    $test = "https://staging.accredible.com/v1/";
+    	    $this->api_endpoint = "https://staging.accredible.com/v1/";
     	}
     }
 
