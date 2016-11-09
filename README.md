@@ -1,3 +1,6 @@
+
+![Build Status](https://travis-ci.org/accredible/acms-php-api.svg?branch=master)
+
 # Accredible API PHP SDK
 
 ## Overview
