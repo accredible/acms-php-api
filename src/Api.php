@@ -156,7 +156,7 @@ class Api {
 
 		$client = new \GuzzleHttp\Client();
 
-		$response = $client->post($this->api_endpoint.'credentials/'.$id, [
+		$response = $client->put($this->api_endpoint.'credentials/'.$id, [
 		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
 		    'json' => $data
 		]);
