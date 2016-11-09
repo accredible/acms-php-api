@@ -6,6 +6,8 @@ use ACMS\Api;
 
 //fwrite(STDERR, print_r($example_credential, TRUE));
 
+// TODO: Add mocked response tests for speed
+
 class ApiTest extends \PHPUnit_Framework_TestCase {
 
     public $group;
