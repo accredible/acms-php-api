@@ -8,12 +8,30 @@ use ACMS\Api;
 
 class ApiTest extends \PHPUnit_Framework_TestCase {
 
+    public $group;
+
 	protected function setUp(){
         $this->api = new Api($_SERVER['API_KEY'], true);
+
+        // Create a group
+        $group_name = $this->RandomString(20);
+        $this->group = $this->api->create_group($group_name, "Test course", "Test course description.");
     }
 
     protected function tearDown(){
-    	
+        // Remove group
+    	$response = $this->api->delete_group($this->group->group->id);
+    }
+
+    // http://stackoverflow.com/a/12570458
+    protected function RandomString($length) {
+        $keys = array_merge(range(0,9), range('a', 'z'));
+
+        $key = "";
+        for($i=0; $i < $length; $i++) {
+            $key .= $keys[mt_rand(0, count($keys) - 1)];
+        }
+        return $key;
     }
 
     public function testSetAPIKey(){
@@ -22,13 +40,18 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetCredential(){
+        $new_credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
+
     	// Check if we can get a Credential
-        $example_credential = $this->api->get_credential(10000005);
-		$this->assertEquals(10000005, $example_credential->credential->id);
+        $example_credential = $this->api->get_credential($new_credential->credential->id);
+		$this->assertEquals($new_credential->credential->id, $example_credential->credential->id);
+
+        //cleanup
+        $this->api->delete_credential($new_credential->credential->id);
     }
 
     public function testGetCredentials(){
-    	$new_credential = $this->api->create_credential("John Doe", "john@example.com", 54018);
+    	$new_credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
 
     	// Check if we can get credentials given an email
 		$example_credentials = $this->api->get_credentials(null, "john@example.com", 1);
@@ -42,7 +65,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
 
     public function testCreateCredential(){
     	//Check we can create a Credential
-		$new_credential = $this->api->create_credential("John Doe", "john@example.com", 54018);
+		$new_credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
 		$this->assertEquals("John Doe", $new_credential->credential->recipient->name);
 
 		//cleanup
@@ -50,7 +73,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testUpdateCredential(){
-    	$new_credential = $this->api->create_credential("John Doe", "john@example.com", 54018);
+    	$new_credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
 
     	//Check we can update a Credential
 		$updated_credential = $this->api->update_credential($new_credential->credential->id, "Jonathan Doe");
@@ -61,7 +84,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testDeleteCredential(){
-    	$new_credential = $this->api->create_credential("John Doe", "john@example.com", 54018);
+    	$new_credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
 
     	// Can we delete a Credential
 		$response = $this->api->delete_credential($new_credential->credential->id);
@@ -69,55 +92,56 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetGroup(){
-    	$group = $this->api->create_group("PHPTest1", "Test course", "Test course description.");
 
     	// Can we get a group?
-		$requested_group = $this->api->get_group($group->group->id);
-		$this->assertEquals("PHPTest1", $requested_group->group->name);
-
-		//cleanup
-		$response = $this->api->delete_group($requested_group->group->id);
+		$requested_group = $this->api->get_group($this->group->group->id);
+		$this->assertEquals($this->group->group->name, $requested_group->group->name);
     }
 
-    public function testGetGroups(){
-    	$group = $this->api->create_group("PHPTest2", "Test course", "Test course description.");
+    // TODO - implement
+  //   public function testGetGroups(){
+  //       $group_name = $this->RandomString(20);
 
-    	// Can we get a group?
-		$groups = $this->api->get_groups(1);
-		$example_group = array_values($groups->groups)[0];
+  //   	$group = $this->api->create_group($group_name, "Test course", "Test course description.");
 
-		$this->assertEquals("PHPTest2", $example_group->group->name);
+  //   	// Can we get a group?
+		// $groups = $this->api->get_groups(1);
+		// $example_group = array_values($groups->groups)[0];
 
-		//cleanup
-		$response = $this->api->delete_group($example_group->group->id);
-    }
+		// $this->assertEquals($group_name, $example_group->name);
+
+		// //cleanup
+		// $response = $this->api->delete_group($example_group->id);
+  //   }
 
     public function testCreateGroup(){
+        $group_name = $this->RandomString(20);
+
     	// Can we create a Group
-		$group = $this->api->create_group("PHPTest3", "Test course", "Test course description.");
-		$this->assertEquals("PHPTest3", $group->group->name);
+		$group = $this->api->create_group($group_name, "Test course", "Test course description.");
+		$this->assertEquals($group_name, $group->group->name);
 
 		//cleanup
 		$response = $this->api->delete_group($group->group->id);
     }
 
     public function testUpdateGroup(){
-    	$group = $this->api->create_group("PHPTest4", "Test course", "Test course description.");
+
+        $new_name = $this->RandomString(20);
 
     	// Can we update a group?
-		$requested_group = $this->api->update_group($group->group->id, 'PHPTest5');
-		$this->assertEquals("PHPTest5", $requested_group->group->name);
-
-		//cleanup
-		$response = $this->api->delete_group($requested_group->group->id);
+		$requested_group = $this->api->update_group($this->group->group->id, $new_name);
+		$this->assertEquals($new_name, $requested_group->group->name);
     }
 
     public function testDeleteGroup(){
-    	$group = $this->api->create_group("PHPTest6", "Test course", "Test course description.");
+        $group_name = $this->RandomString(20);
+
+    	$group = $this->api->create_group($group_name, "Test course", "Test course description.");
 
     	// Can we delete a group?
 		$response = $this->api->delete_group($group->group->id);
-		$this->assertEquals("PHPTest6", $response->group->name);
+		$this->assertEquals($group_name, $response->group->name);
     }
 
 }
