@@ -69,24 +69,24 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
     }
 
     public function testGetGroup(){
-    	$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");
+    	$group = $this->api->create_group("PHPTest1", "Test course", "Test course description.");
 
     	// Can we get a group?
 		$requested_group = $this->api->get_group($group->group->id);
-		$this->assertEquals("PHPTest", $requested_group->group->name);
+		$this->assertEquals("PHPTest1", $requested_group->group->name);
 
 		//cleanup
 		$response = $this->api->delete_group($requested_group->group->id);
     }
 
     public function testGetGroups(){
-    	$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");
+    	$group = $this->api->create_group("PHPTest2", "Test course", "Test course description.");
 
     	// Can we get a group?
 		$groups = $this->api->get_groups(1);
 		$example_group = array_values($groups->groups)[0];
 
-		$this->assertEquals("PHPTest", $example_group->group->name);
+		$this->assertEquals("PHPTest2", $example_group->group->name);
 
 		//cleanup
 		$response = $this->api->delete_group($example_group->group->id);
@@ -94,30 +94,30 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
 
     public function testCreateGroup(){
     	// Can we create a Group
-		$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");
-		$this->assertEquals("PHPTest", $group->group->name);
+		$group = $this->api->create_group("PHPTest3", "Test course", "Test course description.");
+		$this->assertEquals("PHPTest3", $group->group->name);
 
 		//cleanup
 		$response = $this->api->delete_group($group->group->id);
     }
 
     public function testUpdateGroup(){
-    	$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");
+    	$group = $this->api->create_group("PHPTest4", "Test course", "Test course description.");
 
     	// Can we update a group?
-		$requested_group = $this->api->update_group($group->group->id, 'PHPTest2');
-		$this->assertEquals("PHPTest2", $requested_group->group->name);
+		$requested_group = $this->api->update_group($group->group->id, 'PHPTest5');
+		$this->assertEquals("PHPTest5", $requested_group->group->name);
 
 		//cleanup
 		$response = $this->api->delete_group($requested_group->group->id);
     }
 
     public function testDeleteGroup(){
-    	$group = $this->api->create_group("PHPTest", "Test course", "Test course description.");
+    	$group = $this->api->create_group("PHPTest6", "Test course", "Test course description.");
 
     	// Can we delete a group?
 		$response = $this->api->delete_group($group->group->id);
-		$this->assertEquals("PHPTest", $response->group->name);
+		$this->assertEquals("PHPTest6", $response->group->name);
     }
 
 }
