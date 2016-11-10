@@ -8,7 +8,7 @@ The Accredible platform enables organizations to create, manage and distribute d
 
 An example digital certificate and badge can be viewed here: https://www.credential.net/10000005
 
-This Composer package wraps the Accredible API in PHP for easy integration into projects. Full API documentation can be found here: http://docs.accrediblecredentialapi.apiary.io/
+This Composer package wraps the Accredible API in PHP for easy integration into projects. The full REST API documentation can be found here: http://docs.accrediblecredentialapi.apiary.io/ 
 
 ## Example Output
 ![Example Digital Certificate](https://s3.amazonaws.com/accredible-cdn/example-digital-certificate.png)
