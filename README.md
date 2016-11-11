@@ -1,14 +1,19 @@
-
-![Build Status](https://travis-ci.org/accredible/acms-php-api.svg?branch=master)
+![Accredible Logo](https://s3.amazonaws.com/accredible-cdn/accredible_logo_sm.png)
 
 # Accredible API PHP SDK
+![Build Status](https://travis-ci.org/accredible/acms-php-api.svg?branch=master)
 
 ## Overview
 The Accredible platform enables organizations to create, manage and distribute digital credentials as digital certificates or open badges.
 
 An example digital certificate and badge can be viewed here: https://www.credential.net/10000005
 
-This Composer package wraps the Accredible API in PHP for easy integration into projects. Full API documentation can be found here: http://docs.accrediblecredentialapi.apiary.io/
+This Composer package wraps the Accredible API in PHP for easy integration into projects. The full REST API documentation can be found here: http://docs.accrediblecredentialapi.apiary.io/ 
+
+## Example Output
+![Example Digital Certificate](https://s3.amazonaws.com/accredible-cdn/example-digital-certificate.png)
+
+![Example Open Badge](https://s3.amazonaws.com/accredible-cdn/example-digital-badge.png)
 
 ## Install
 ```bash
@@ -52,6 +57,12 @@ $api->update_group(100, 'PHPTest2');
 // Delete a Group
 $api->delete_group(100);
 ```
+
+###Bug reports
+
+If you discover any bugs, feel free to create an issue on GitHub. Please add as much information as possible to help us fixing the possible bug. We also encourage you to help even more by forking and sending us a pull request.
+
+https://github.com/accredible/acms-php-api/issues
 
 ### License
 
