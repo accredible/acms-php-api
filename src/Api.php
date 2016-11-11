@@ -84,7 +84,7 @@ class Api {
 	public function get_credentials($group_id = null, $email = null, $page_size = null, $page = 1){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->get($this->api_endpoint. 'credentials?group_id=' . $group_id . '&email=' . rawurlencode($email) . '&page_size=' . $page_size . '&page=' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->get($this->api_endpoint. 'all_credentials?group_id=' . $group_id . '&email=' . rawurlencode($email) . '&page_size=' . $page_size . '&page=' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
 		
 		$result = json_decode($response->getBody());
 		return $result;
