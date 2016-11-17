@@ -146,4 +146,31 @@ class ApiTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($group_name, $response->group->name);
     }
 
+    public function testSendBatchRequests(){
+        $group_name = $this->RandomString(20);
+
+        $group_data = array(  
+            "group" => array( 
+                "name" => $group_name,
+                "course_name" => "Example Course",
+                "course_description" => "Example Description",
+                "course_link" => "https://www.accredible.com"
+            ) 
+        );
+
+        $requests = [
+            ["method" => "get",    "url" => "/v1/credentials/10000005"],
+            ["method" => "post",   "url" => "/v1/issuer/groups",        "params" => $group_data]
+        ];
+
+        $response = $this->api->send_batch_requests($requests);
+
+        $response1 = json_decode($response->results[0]->body);
+        $this->assertEquals("10000005", $response1->credential->id);
+
+        $response2 = json_decode($response->results[1]->body);
+        $this->assertEquals($group_name, $response2->group->name);
+
+    }
+
 }
