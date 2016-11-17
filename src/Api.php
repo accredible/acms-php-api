@@ -287,5 +287,24 @@ class Api {
 
 		return $result;
 	}
+
+
+	/**
+	 * Send an array of batch requests
+	 * @param Array $requests 
+	 * @return stdObject
+	 */
+	public function send_batch_requests($requests){
+		$client = new \GuzzleHttp\Client();
+
+		$response = $client->post($this->api_endpoint.'batch', [
+		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
+		    'json' => [ "ops" => $requests, "sequential" => true ]
+		]);
+
+		$result = json_decode($response->getBody());
+
+		return $result;
+	}
 }
 
