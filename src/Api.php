@@ -67,7 +67,9 @@ class Api {
 	public function get_credential($id){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->get($this->api_endpoint . 'credentials/' . $id, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$params = array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'));
+
+		$response = $client->get($this->api_endpoint . 'credentials/' . $id, $params);
 		
 		$result = json_decode($response->getBody());
 		return $result;
@@ -83,8 +85,10 @@ class Api {
 	 */
 	public function get_credentials($group_id = null, $email = null, $page_size = null, $page = 1){
 		$client = new \GuzzleHttp\Client();
+
+		$params = array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'));
 		
-		$response = $client->get($this->api_endpoint. 'all_credentials?group_id=' . $group_id . '&email=' . rawurlencode($email) . '&page_size=' . $page_size . '&page=' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->get($this->api_endpoint. 'all_credentials?group_id=' . $group_id . '&email=' . rawurlencode($email) . '&page_size=' . $page_size . '&page=' . $page, $params);
 		
 		$result = json_decode($response->getBody());
 		return $result;
@@ -117,10 +121,12 @@ class Api {
 
 		$client = new \GuzzleHttp\Client();
 
-		$response = $client->post($this->api_endpoint.'credentials', [
-		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
+		$params = array('Authorization' => 'Token token="'.$this->getAPIKey().'"');
+
+		$response = $client->post($this->api_endpoint.'credentials', array(
+		    'headers' => $params,
 		    'json' => $data
-		]);
+		));
 
 		$result = json_decode($response->getBody());
 
@@ -156,10 +162,10 @@ class Api {
 
 		$client = new \GuzzleHttp\Client();
 
-		$response = $client->put($this->api_endpoint.'credentials/'.$id, [
-		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
+		$response = $client->put($this->api_endpoint.'credentials/'.$id, array(
+		    'headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'),
 		    'json' => $data
-		]);
+		));
 
 		$result = json_decode($response->getBody());
 
@@ -174,7 +180,7 @@ class Api {
 	public function delete_credential($id){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->delete($this->api_endpoint.'credentials/' . $id, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->delete($this->api_endpoint.'credentials/' . $id, array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"')));
 		
 		$result = json_decode($response->getBody());
 
@@ -201,10 +207,10 @@ class Api {
 
 		$client = new \GuzzleHttp\Client();
 
-		$response = $client->post($this->api_endpoint.'issuer/groups', [
-		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
+		$response = $client->post($this->api_endpoint.'issuer/groups', array(
+		    'headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'),
 		    'json' => $data
-		]);
+		));
 
 		$result = json_decode($response->getBody());
 
@@ -219,7 +225,7 @@ class Api {
 	public function get_group($id){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->get($this->api_endpoint.'issuer/groups/' . $id, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->get($this->api_endpoint.'issuer/groups/' . $id, array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"')));
 		
 		$result = json_decode($response->getBody());
 		return $result;
@@ -234,7 +240,7 @@ class Api {
 	public function get_groups($page_size = nil, $page = 1){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->get($this->api_endpoint.'issuer/all_groups?page_size=' . $page_size . '&page=' . $page, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->get($this->api_endpoint.'issuer/all_groups?page_size=' . $page_size . '&page=' . $page, array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"')));
 		
 		$result = json_decode($response->getBody());
 		return $result;
@@ -263,10 +269,10 @@ class Api {
 
 		$client = new \GuzzleHttp\Client();
 
-		$response = $client->put($this->api_endpoint.'issuer/groups/'.$id, [
-		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
+		$response = $client->put($this->api_endpoint.'issuer/groups/'.$id, array(
+		    'headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'),
 		    'json' => $data
-		]);
+		));
 
 		$result = json_decode($response->getBody());
 
@@ -281,7 +287,7 @@ class Api {
 	public function delete_group($id){
 		$client = new \GuzzleHttp\Client();
 		
-		$response = $client->delete($this->api_endpoint.'issuer/groups/' . $id, ['headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"']]);
+		$response = $client->delete($this->api_endpoint.'issuer/groups/' . $id, array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"')));
 		
 		$result = json_decode($response->getBody());
 
@@ -297,10 +303,10 @@ class Api {
 	public function send_batch_requests($requests){
 		$client = new \GuzzleHttp\Client();
 
-		$response = $client->post($this->api_endpoint.'batch', [
-		    'headers' =>  ['Authorization' => 'Token token="'.$this->getAPIKey().'"'],
-		    'json' => [ "ops" => $requests, "sequential" => true ]
-		]);
+		$response = $client->post($this->api_endpoint.'batch', array(
+		    'headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'),
+		    'json' => array( "ops" => $requests, "sequential" => true )
+		));
 
 		$result = json_decode($response->getBody());
 
