@@ -4,6 +4,12 @@ namespace ACMS\Tests;
 
 use ACMS\Api;
 
+// backward compatibility
+if (!class_exists('\PHPUnit\Framework\TestCase') &&
+    class_exists('\PHPUnit_Framework_TestCase')) {
+    class_alias('\PHPUnit_Framework_TestCase', 'PHPUnit\Framework\TestCase');
+}
+
 use PHPUnit\Framework\TestCase;
 
 //fwrite(STDERR, print_r($example_credential, TRUE));
