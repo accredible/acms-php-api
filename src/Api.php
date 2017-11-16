@@ -359,7 +359,7 @@ class Api {
      * @param String $grade - value must be between 0 and 100
      * @return stdObject
      */
-    public function create_evidence_item_grade($grade, $description, $credential_id){
+    public function create_evidence_item_grade($grade, $description, $credential_id, $hidden = false){
 
         if(is_numeric($grade) && intval($grade) >= 0 && intval($grade) <= 100){
 
@@ -367,7 +367,8 @@ class Api {
                 "evidence_item" => array(
                     "description" => $description,
                     "category" => "grade",
-                    "string_object" => (string) $grade
+                    "string_object" => (string) $grade,
+                    "hidden" => $hidden
                 )
             );
 
@@ -379,6 +380,41 @@ class Api {
             throw new \InvalidArgumentException("$grade must be a numeric value between 0 and 100.");
         }
     }
+
+    /**
+     * Creates a Grade evidence item on a given credential.
+     * @param String $start_date
+     * @param String $end_date
+     * @return stdObject
+     */
+    public function create_evidence_item_duration($start_date, $end_date, $credential_id, $hidden = false){
+
+        $duration_info = array(
+            'start_date' =>  date("Y-m-d", strtotime($start_date)),
+            'end_date' => date("Y-m-d", strtotime($end_date)),
+            'duration_in_days' => floor( (strtotime($end_date) - strtotime($start_date)) / 86400)
+        );
+
+        if($duration_info['duration_in_days'] && $duration_info['duration_in_days'] != 0){
+
+            $evidence_item = array(
+                "evidence_item" => array(
+                    "description" => 'Completed in ' . $duration_info['duration_in_days'] . ' days',
+                    "category" => "course_duration",
+                    "string_object" => json_encode($duration_info),
+                    "hidden" => $hidden
+                )
+            );
+
+            $result = $this->create_evidence_item($evidence_item, $credential_id);
+
+            return $result;
+
+        } else {
+            throw new \InvalidArgumentException("Enrollment duration must be greater than 0.");
+        }
+    }
+
 
 	/**
 	 * Send an array of batch requests

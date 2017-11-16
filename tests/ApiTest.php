@@ -163,40 +163,6 @@ class ApiTest extends TestCase {
 		$this->assertEquals($group_name, $response->group->name);
     }
 
-    public function testCreateEvidence(){
-        $new_credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
-
-        $evidence_item = array(
-            "evidence_item" => array(
-                "description" => "test item",
-                "category" => "url",
-                "url" => "https://www.accredible.com"
-            )
-        );
-
-        //Check we can create an evidence item
-        $evidence_item = $this->api->create_evidence_item($evidence_item, $new_credential->credential->id);
-        $this->assertEquals("test item", $evidence_item->evidence_item->description);
-
-        //cleanup
-        $this->api->delete_credential($new_credential->credential->id);
-    }
-
-    public function testCreateEvidenceGrade(){
-        $new_credential = $this->api->create_credential("Johnny Doe", "john@example.com", $this->group->group->id);
-
-        //Check we can create a grade evidence item
-        $evidence_item1 = $this->api->create_evidence_item_grade("90", "some description", $new_credential->credential->id);
-        $this->assertEquals("some description", $evidence_item1->evidence_item->description);
-
-        //Check we can't make an invalid grade item
-        $this->expectException(\Exception::class);
-        $evidence_item2 = $this->api->create_evidence_item_grade("B", "some description", $new_credential->credential->id);
-        fwrite(STDERR, print_r($evidence_item2, TRUE));
-
-        //cleanup
-        $this->api->delete_credential($new_credential->credential->id);
-    }
 
     public function testSendBatchRequests(){
         $group_name = $this->RandomString(20);
