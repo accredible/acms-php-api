@@ -32,11 +32,11 @@ class ApiTestEvidence extends TestCase {
     }
 
     protected function tearDown(){
-        // Remove credential
-        $response = $this->api->delete_credential($this->credential->credential->id);
+     //    // Remove credential
+     //    $response = $this->api->delete_credential($this->credential->credential->id);
 
-        // Remove group
-    	$response = $this->api->delete_group($this->group->group->id);
+     //    // Remove group
+    	// $response = $this->api->delete_group($this->group->group->id);
     }
 
     // http://stackoverflow.com/a/12570458
@@ -75,13 +75,25 @@ class ApiTestEvidence extends TestCase {
     }
 
     public function testCreateEvidenceDuration(){
-        //Check we can create a grade evidence item
+        //Check we can create a duration evidence item
         $evidence_item1 = $this->api->create_evidence_item_duration(date("Y-m-d", strtotime("2017-10-01")), date("Y-m-d", strtotime("2017-10-10")), $this->credential->credential->id);
         $this->assertEquals("Completed in 9 days", $evidence_item1->evidence_item->description);
 
-        //Check we can't make an invalid grade item
+        //Check we can't make an invalid duration item
         $this->expectException(\Exception::class);
         $evidence_item2 = $this->api->create_evidence_item_duration(date("Y-m-d", strtotime("2017-10-01")), date("Y-m-d", strtotime("2017-10-01")), $this->credential->credential->id);
+    }
+
+    public function testCreateEvidenceTranscript(){
+        $transcript = array(
+            "first test" => "10",
+            "test 2" => "100",
+            "third test" => "50"
+        );
+
+        //Check we can create a transcript evidence item
+        $evidence_item1 = $this->api->create_evidence_item_transcript($transcript, $this->credential->credential->id);
+        $this->assertEquals("Course Transcript", $evidence_item1->evidence_item->description);
     }
 
 }

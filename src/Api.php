@@ -415,6 +415,37 @@ class Api {
         }
     }
 
+    /**
+     * Creates a Transcript evidence item on a given credential.
+     * @param String $transcript - Hash of key values.
+     * @return stdObject
+     */
+    public function create_evidence_item_transcript($transcript, $credential_id, $hidden = false){
+
+        $transcript_items = array();
+
+        foreach ($transcript as $key => $value) {
+            array_push($transcript_items, array(
+                'category' => $key,
+                'percent' => $value
+                )
+            );
+        }
+
+        $evidence_item = array(
+            "evidence_item" => array(
+                "description" => 'Course Transcript',
+                "category" => "transcript",
+                "string_object" => json_encode($transcript_items),
+                "hidden" => $hidden
+            )
+        );
+
+        $result = $this->create_evidence_item($evidence_item, $credential_id);
+
+        return $result;
+    }
+
 
 	/**
 	 * Send an array of batch requests
