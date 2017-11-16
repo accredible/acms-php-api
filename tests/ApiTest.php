@@ -21,7 +21,7 @@ class ApiTest extends TestCase {
     public $group;
 
 	protected function setUp(){
-        $this->api = new Api($_SERVER['API_KEY'], true);
+        $this->api = new Api("7b47e413b0216b489f0034960db4e84f", true);
 
         // Create a group
         $group_name = $this->RandomString(20);
@@ -46,7 +46,7 @@ class ApiTest extends TestCase {
 
     public function testSetAPIKey(){
         // Check the API key is set
-        $this->assertEquals($_SERVER['API_KEY'], $this->api->getAPIKey());
+        $this->assertEquals("7b47e413b0216b489f0034960db4e84f", $this->api->getAPIKey());
     }
 
     public function testGetCredential(){
@@ -80,6 +80,15 @@ class ApiTest extends TestCase {
 
 		//cleanup
 		$this->api->delete_credential($new_credential->credential->id);
+    }
+
+    public function testCreateCredentialLegacy(){
+        //Check we can create a Credential
+        $new_credential = $this->api->create_credential_legacy("John Doe", "john@example.com", $this->group->group->name);
+        $this->assertEquals("John Doe", $new_credential->credential->recipient->name);
+
+        //cleanup
+        $this->api->delete_credential($new_credential->credential->id);
     }
 
     public function testUpdateCredential(){

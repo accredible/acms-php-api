@@ -133,6 +133,45 @@ class Api {
 		return $result;
 	}
 
+    /**
+     * Creates a Credential given an existing Group. This legacy method uses achievement names rather than group IDs.
+     * @param String $recipient_name
+     * @param String $recipient_email
+     * @param String $achievement_name
+     * @param Date|null $issued_on
+     * @param Date|null $expired_on
+     * @param stdObject|null $custom_attributes
+     * @return stdObject
+     */
+    public function create_credential_legacy($recipient_name, $recipient_email, $achievement_name, $issued_on = null, $expired_on = null, $custom_attributes = null){
+
+        $data = array(
+            "credential" => array(
+                "group_name" => $achievement_name,
+                "recipient" => array(
+                    "name" => $recipient_name,
+                    "email" => $recipient_email
+                ),
+                "issued_on" => $issued_on,
+                "expired_on" => $expired_on,
+                "custom_attributes" => $custom_attributes
+            )
+        );
+
+        $client = new \GuzzleHttp\Client();
+
+        $params = array('Authorization' => 'Token token="'.$this->getAPIKey().'"');
+
+        $response = $client->post($this->api_endpoint.'credentials', array(
+            'headers' => $params,
+            'json' => $data
+        ));
+
+        $result = json_decode($response->getBody());
+
+        return $result;
+    }
+
 	/**
 	 * Updates a Credential
 	 * @param type $id
