@@ -335,6 +335,25 @@ class Api {
 		return $result;
 	}
 
+    /**
+     * Creates an evidence item on a given credential. This is a general method used by more specific evidence item creations.
+     * @param stdObject $evidence_item
+     * @return stdObject
+     */
+    public function create_evidence_item($evidence_item, $credential_id){
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->post($this->api_endpoint.'credentials/'.$credential_id.'/evidence_items', array(
+            'headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'),
+            'json' => $evidence_item
+        ));
+
+        $result = json_decode($response->getBody());
+
+        return $result;
+    }
+
 
 	/**
 	 * Send an array of batch requests
@@ -353,5 +372,5 @@ class Api {
 
 		return $result;
 	}
-}
 
+}
