@@ -18,6 +18,13 @@ use PHPUnit\Framework\TestCase;
 
 class ApiTestEvidence extends TestCase {
 
+    // backward compatibility
+    if (!method_exists($this,'expectException')) {
+        public function expectException($exception) {
+            self::setExpectedException($exception);
+        }
+    }
+
     public $group;
 
 	protected function setUp(){
