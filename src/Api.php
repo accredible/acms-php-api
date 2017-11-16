@@ -354,6 +354,31 @@ class Api {
         return $result;
     }
 
+    /**
+     * Creates a Grade evidence item on a given credential.
+     * @param String $grade - value must be between 0 and 100
+     * @return stdObject
+     */
+    public function create_evidence_item_grade($grade, $description, $credential_id){
+
+        if(is_numeric($grade) && intval($grade) >= 0 && intval($grade) <= 100){
+
+            $evidence_item = array(
+                "evidence_item" => array(
+                    "description" => $description,
+                    "category" => "grade",
+                    "string_object" => (string) $grade
+                )
+            );
+
+            $result = $this->create_evidence_item($evidence_item, $credential_id);
+
+            return $result;
+
+        } else {
+            throw new \InvalidArgumentException("$grade must be a numeric value between 0 and 100.");
+        }
+    }
 
 	/**
 	 * Send an array of batch requests
