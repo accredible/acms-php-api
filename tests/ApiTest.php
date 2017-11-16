@@ -163,6 +163,30 @@ class ApiTest extends TestCase {
 		$this->assertEquals($group_name, $response->group->name);
     }
 
+    public function testGetDesigns(){
+
+        // Can we get a group?
+        $requested_designs = $this->api->get_designs(10, 1);
+        $this->assertInternalType("int", $requested_designs->designs{0}->id);
+    }
+
+    public function testRecipientSSOLink(){
+
+        //ensure the group has a design so our credential can be published
+        $requested_designs = $this->api->get_designs(1, 1);
+        $this->api->update_group($this->group->group->id, null, null, null, null, $requested_designs->designs{0}->id);
+
+        $credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
+
+        // Can we create a recipient redirect link
+        $redirect = $this->api->recipient_sso_link(null, null, "john@example.com", null, $this->group->group->id);
+        $this->assertRegexp('/&jwt=/', (string) $redirect->link);
+
+        // Cleanup - Remove credential
+        $this->api->delete_credential($credential->credential->id);
+
+    }
+
 
     public function testSendBatchRequests(){
         $group_name = $this->RandomString(20);

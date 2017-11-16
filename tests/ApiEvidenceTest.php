@@ -32,11 +32,11 @@ class ApiTestEvidence extends TestCase {
     }
 
     protected function tearDown(){
-     //    // Remove credential
-     //    $response = $this->api->delete_credential($this->credential->credential->id);
+        // Remove credential
+        $response = $this->api->delete_credential($this->credential->credential->id);
 
-     //    // Remove group
-    	// $response = $this->api->delete_group($this->group->group->id);
+        // Remove group
+    	$response = $this->api->delete_group($this->group->group->id);
     }
 
     // http://stackoverflow.com/a/12570458

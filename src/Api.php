@@ -296,14 +296,15 @@ class Api {
 	 * @param String|null $course_link
 	 * @return stdObject
 	 */
-	public function update_group($id, $name = null, $course_name = null, $course_description = null, $course_link = null){
+	public function update_group($id, $name = null, $course_name = null, $course_description = null, $course_link = null, $design_id = null){
 
 		$data = array(
 		    "group" => array(
 		    	"name" => $name,
 		    	"course_name" => $course_name,
 				"course_description" => $course_description,
-    			"course_link" => $course_link
+    			"course_link" => $course_link,
+                "design_id" => $design_id
 		    )
 		);
 		$data = $this->strip_empty_keys($data);
@@ -334,6 +335,21 @@ class Api {
 
 		return $result;
 	}
+
+    /**
+     * Get all Designs
+     * @param String $page_size
+     * @param String $page
+     * @return stdObject
+     */
+    public function get_designs($page_size = nil, $page = 1){
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->get($this->api_endpoint.'issuer/all_designs?page_size=' . $page_size . '&page=' . $page, array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"')));
+
+        $result = json_decode($response->getBody());
+        return $result;
+    }
 
     /**
      * Creates an evidence item on a given credential. This is a general method used by more specific evidence item creations.
@@ -445,6 +461,36 @@ class Api {
 
         return $result;
     }
+
+    /**
+     * Generaate a Single Sign On Link for a recipient for a particular credential.
+     * @return stdObject
+     */
+    public function recipient_sso_link($credential_id = null, $recipient_id = null, $recipient_email = null, $wallet_view = null, $group_id = null, $redirect_to = null){
+
+        $data = array(
+            "credential_id" => $credential_id,
+            "recipient_id" => $recipient_id,
+            "recipient_email" => $recipient_email,
+            "wallet_view" => $wallet_view,
+            "group_id" => $group_id,
+            "redirect_to" => $redirect_to,
+        );
+
+        $data = $this->strip_empty_keys($data);
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->post($this->api_endpoint.'sso/generate_link', array(
+            'headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'),
+            'json' => $data
+        ));
+
+        $result = json_decode($response->getBody());
+
+        return $result;
+    }
+
 
 
 	/**
