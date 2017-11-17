@@ -79,7 +79,7 @@ class ApiTestEvidence extends TestCase {
         $this->assertEquals("some description", $evidence_item1->evidence_item->description);
 
         //Check we can't make an invalid grade item
-        $this->expectException(\Exception::class);
+        $this->expectException("\Exception");
         $evidence_item2 = $this->api->create_evidence_item_grade("B", "some description", $this->credential->credential->id);
     }
 
@@ -89,7 +89,7 @@ class ApiTestEvidence extends TestCase {
         $this->assertEquals("Completed in 9 days", $evidence_item1->evidence_item->description);
 
         //Check we can't make an invalid duration item
-        $this->expectException(\Exception::class);
+        $this->expectException("\Exception");
         $evidence_item2 = $this->api->create_evidence_item_duration(date("Y-m-d", strtotime("2017-10-01")), date("Y-m-d", strtotime("2017-10-01")), $this->credential->credential->id);
     }
 
