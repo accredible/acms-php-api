@@ -19,9 +19,11 @@ use PHPUnit\Framework\TestCase;
 class ApiTestEvidence extends TestCase {
 
     // backward compatibility
-    if (!method_exists($this,'expectException')) {
-        public function expectException($exception) {
-            self::setExpectedException($exception);
+    public function expectException($exception) {
+        if (!method_exists('TestCase','expectException')) {
+            $this->setExpectedException($exception);
+        } else {
+            $this->expectException($exception);
         }
     }
 
