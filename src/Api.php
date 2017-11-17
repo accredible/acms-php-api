@@ -143,7 +143,7 @@ class Api {
      * @param stdObject|null $custom_attributes
      * @return stdObject
      */
-    public function create_credential_legacy($recipient_name, $recipient_email, $achievement_name, $issued_on = null, $expired_on = null, $custom_attributes = null){
+    public function create_credential_legacy($recipient_name, $recipient_email, $achievement_name, $issued_on = null, $expired_on = null, $course_name = null, $course_description = null, $course_link = null, $custom_attributes = null){
 
         $data = array(
             "credential" => array(
@@ -154,7 +154,10 @@ class Api {
                 ),
                 "issued_on" => $issued_on,
                 "expired_on" => $expired_on,
-                "custom_attributes" => $custom_attributes
+                "custom_attributes" => $custom_attributes,
+                "name" => $course_name,
+                "description" => $course_description,
+                "course_link" => $course_link
             )
         );
 
@@ -171,6 +174,7 @@ class Api {
 
         return $result;
     }
+
 
 	/**
 	 * Updates a Credential
