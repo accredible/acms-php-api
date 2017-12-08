@@ -415,11 +415,28 @@ class Api {
             'duration_in_days' => floor( (strtotime($end_date) - strtotime($start_date)) / 86400)
         );
 
+        // multi day duration
         if($duration_info['duration_in_days'] && $duration_info['duration_in_days'] != 0){
 
             $evidence_item = array(
                 "evidence_item" => array(
                     "description" => 'Completed in ' . $duration_info['duration_in_days'] . ' days',
+                    "category" => "course_duration",
+                    "string_object" => json_encode($duration_info),
+                    "hidden" => $hidden
+                )
+            );
+
+            $result = $this->create_evidence_item($evidence_item, $credential_id);
+
+            return $result;
+        // it may be completed in one day
+        else if($duration_info['start_date'] != $duration_info['end_date']){
+            $duration_info['duration_in_days'] = 1;
+
+            $evidence_item = array(
+                "evidence_item" => array(
+                    "description" => 'Completed in 1 day',
                     "category" => "course_duration",
                     "string_object" => json_encode($duration_info),
                     "hidden" => $hidden
