@@ -431,7 +431,7 @@ class Api {
 
             return $result;
         // it may be completed in one day
-        else if($duration_info['start_date'] != $duration_info['end_date']){
+        } else if($duration_info['start_date'] != $duration_info['end_date']){
             $duration_info['duration_in_days'] = 1;
 
             $evidence_item = array(
