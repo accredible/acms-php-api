@@ -85,6 +85,9 @@ class Api {
 	 */
 	public function get_credentials($group_id = null, $email = null, $page_size = null, $page = 1){
 		$client = new \GuzzleHttp\Client();
+        if ($email) {
+            $email = strtolower($email);
+        }
 
 		$params = array('headers' =>  array('Authorization' => 'Token token="'.$this->getAPIKey().'"'));
 
@@ -121,7 +124,10 @@ class Api {
 
 		$client = new \GuzzleHttp\Client();
 
-		$params = array('Authorization' => 'Token token="'.$this->getAPIKey().'"');
+		$params = array(
+			'Authorization' => 'Token token="'.$this->getAPIKey().'"',
+			'Accredible-Integration' => 'Wordpress'
+		);
 
 		$response = $client->post($this->api_endpoint.'credentials', array(
 		    'headers' => $params,
@@ -163,7 +169,10 @@ class Api {
 
         $client = new \GuzzleHttp\Client();
 
-        $params = array('Authorization' => 'Token token="'.$this->getAPIKey().'"');
+        $params = array(
+			'Authorization' => 'Token token="'.$this->getAPIKey().'"',
+			'Accredible-Integration' => 'Wordpress'
+		);
 
         $response = $client->post($this->api_endpoint.'credentials', array(
             'headers' => $params,

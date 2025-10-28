@@ -18,18 +18,10 @@ use PHPUnit\Framework\TestCase;
 
 class ApiTest extends TestCase {
 
-    // backward compatibility
-    public function expectException($exception) {
-        if (!method_exists('TestCase','expectException')) {
-            $this->setExpectedException($exception);
-        } else {
-            $this->expectException($exception);
-        }
-    }
 
     public $group;
 
-	protected function setUp(){
+	protected function setUp(): void {
         $this->api = new Api("7b47e413b0216b489f0034960db4e84f", true);
 
         // Create a group
@@ -37,7 +29,7 @@ class ApiTest extends TestCase {
         $this->group = $this->api->create_group($group_name, "Test course", "Test course description.");
     }
 
-    protected function tearDown(){
+    protected function tearDown(): void {
         // Remove group
     	$response = $this->api->delete_group($this->group->group->id);
     }
@@ -176,14 +168,14 @@ class ApiTest extends TestCase {
 
         // Can we get a group?
         $requested_designs = $this->api->get_designs(10, 1);
-        $this->assertInternalType("int", $requested_designs->designs{0}->id);
+        $this->assertIsInt($requested_designs->designs[0]->id);
     }
 
     public function testRecipientSSOLink(){
 
         //ensure the group has a design so our credential can be published
         $requested_designs = $this->api->get_designs(1, 1);
-        $this->api->update_group($this->group->group->id, null, null, null, null, $requested_designs->designs{0}->id);
+        $this->api->update_group($this->group->group->id, null, null, null, null, $requested_designs->designs[0]->id);
 
         $credential = $this->api->create_credential("John Doe", "john@example.com", $this->group->group->id);
 
