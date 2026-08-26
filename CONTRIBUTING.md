@@ -28,7 +28,7 @@ Follow <https://packagist.org/about#how-to-update-packages>: log into Packagist 
 | --- | --- |
 | Payload URL | `https://packagist.org/api/github?username=PACKAGIST_USERNAME` |
 | Content type | `application/json` |
-| Secret | the Packagist API token |
+| Secret | the Packagist **safe** API token (Profile → Show Safe API Token) |
 | Events | *Just the push event* |
 
 ### 2. The `Update Packagist` GitHub Action
@@ -38,6 +38,6 @@ Follow <https://packagist.org/about#how-to-update-packages>: log into Packagist 
 | Secret | Value |
 | --- | --- |
 | `PACKAGIST_USERNAME` | the Packagist account that owns the package |
-| `PACKAGIST_API_TOKEN` | that account's API token, from its Packagist profile page |
+| `PACKAGIST_API_TOKEN` | that account's **safe** API token — Profile → **Show Safe API Token**. The safe token is scoped to package updates; do not use the main token, which can also create and delete packages. |
 
 If the secrets are missing the job logs a warning and exits successfully, so forks and pull requests don't fail.
