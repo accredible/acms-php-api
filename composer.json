@@ -11,7 +11,11 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "ACMS\\": "src",
+            "ACMS\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "ACMS\\Tests\\": "tests"
         }
     },

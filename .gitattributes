@@ -1,1 +1,11 @@
 * text=auto
+
+# Keep dev-only files out of the Composer dist archive (Packagist/GitHub
+# zipballs honour export-ignore, so consumers don't get these in vendor/).
+/.github            export-ignore
+/tests              export-ignore
+/phpunit.xml        export-ignore
+/Makefile           export-ignore
+/.travis.yml        export-ignore
+/.scrutinizer.yml   export-ignore
+/.editorconfig      export-ignore
