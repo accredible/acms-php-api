@@ -1,0 +1,48 @@
+name: Update Packagist
+
+# Packagist crawls this repo on its own schedule, so a new tag can take hours to
+# appear. This pings the update API (https://packagist.org/about#how-to-update-packages)
+# as soon as master moves or a version tag is pushed.
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+concurrency:
+  group: packagist-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Notify Packagist
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST to the Packagist update API
+        env:
+          PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
+          PACKAGIST_API_TOKEN: ${{ secrets.PACKAGIST_API_TOKEN }}
+          REPOSITORY_URL: https://github.com/accredible/acms-php-api
+        run: |
+          set -euo pipefail
+
+          if [ -z "${PACKAGIST_USERNAME}" ] || [ -z "${PACKAGIST_API_TOKEN}" ]; then
+            echo "::warning::PACKAGIST_USERNAME / PACKAGIST_API_TOKEN are not set - skipping the Packagist update."
+            exit 0
+          fi
+
+          # Secrets stay in the URL query string, so never echo it (Actions masks
+          # secret values in logs, but keep the command quiet regardless).
+          curl --fail-with-body --silent --show-error \
+               --retry 3 --retry-connrefused --retry-delay 5 \
+               --max-time 30 \
+               -X POST \
+               -H 'content-type: application/json' \
+               -d "{\"repository\":{\"url\":\"${REPOSITORY_URL}\"}}" \
+               "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_API_TOKEN}"
+
+          echo
+          echo "Packagist update requested for accredible/acms-api-php."
