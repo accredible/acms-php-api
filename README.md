@@ -17,7 +17,7 @@ This Composer package wraps the Accredible API in PHP for easy integration into 
 
 ## Install
 ```bash
-composer require accredible/acms-php-api dev-master
+composer require accredible/acms-api-php
 ```
 
 ## Usage
@@ -57,6 +57,12 @@ $api->update_group(100, 'PHPTest2');
 // Delete a Group
 $api->delete_group(100);
 ```
+
+## Versioning
+
+Released versions are published on Packagist as [`accredible/acms-api-php`](https://packagist.org/packages/accredible/acms-api-php) and follow the `vX.Y.Z` tags in this repo. Pin a version constraint rather than tracking `dev-master`.
+
+Maintainers: see [CONTRIBUTING.md](CONTRIBUTING.md) for the release process.
 
 ###Bug reports
 

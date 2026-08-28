@@ -11,13 +11,17 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "ACMS\\": "src",
+            "ACMS\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "ACMS\\Tests\\": "tests"
         }
     },
     "require": {
         "php": ">=7.2",
-        "guzzlehttp/guzzle": "^7.10.0"
+        "guzzlehttp/guzzle": "^7.15.5"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0 || ^10.0"
