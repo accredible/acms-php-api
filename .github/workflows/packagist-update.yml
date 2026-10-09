@@ -19,7 +19,7 @@ concurrency:
 jobs:
   update:
     name: Notify Packagist
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - name: POST to the Packagist update API
         env:
